@@ -4,12 +4,18 @@ from dotenv import load_dotenv
 import os
 from utils.gpt_helpers import get_research, generate_outline
 from data.system_prompts import RESEARCH_ASSISTANT_PROMPT, ARTICLE_OUTLINE_PROMPT
+import pyperclip
 
 # Load environment variables
 load_dotenv()
 
 # Configure OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+def create_copy_button(text, button_text="Copy to clipboard"):
+    if st.button(button_text):
+        pyperclip.copy(text)
+        st.success("Copied to clipboard!")
 
 def main():
     # Page config
@@ -78,12 +84,14 @@ def main():
         with tab1:
             if "research_data" in st.session_state:
                 st.markdown(st.session_state.research_data)
+                create_copy_button(st.session_state.research_data)
             else:
                 st.info("Research results will appear here...")
 
         with tab2:
             if "outline_data" in st.session_state:
                 st.markdown(st.session_state.outline_data)
+                create_copy_button(st.session_state.outline_data)
             else:
                 st.info("Article outline will appear here...")
 
