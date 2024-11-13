@@ -4,18 +4,12 @@ from dotenv import load_dotenv
 import os
 from utils.gpt_helpers import get_research, generate_outline
 from data.system_prompts import RESEARCH_ASSISTANT_PROMPT, ARTICLE_OUTLINE_PROMPT
-import pyperclip
 
 # Load environment variables
 load_dotenv()
 
 # Configure OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-
-def create_copy_button(text, key_suffix):
-    if st.button(f"Copy to clipboard", key=f"copy_button_{key_suffix}"):
-        pyperclip.copy(text)
-        st.success("Copied to clipboard!")
 
 def main():
     # Page config
@@ -35,9 +29,32 @@ def main():
     with st.sidebar:
         st.header("About")
         st.markdown("""
-        This tool helps generate content ideas and outlines for AtkinsRéalis by:
-        1. Researching relevant topics
-        2. Generating structured outlines
+        This tool helps generate content ideas and outlines for AtkinsRéalis using two specialized GPT assistants:
+        """)
+        
+        st.subheader("1. Research Assistant")
+        st.markdown("""
+        - Focuses on gathering relevant industry insights
+        - Specializes in engineering and infrastructure topics
+        - Structures data into digestible formats
+        - Ensures data comes from reputable sources
+        """)
+
+        st.subheader("2. Outline Specialist")
+        st.markdown("""
+        - Transforms research into structured article outlines
+        - Maintains consistent AtkinsRéalis voice
+        - Creates separate outlines for each research topic
+        - Ensures technical depth and business relevance
+        """)
+
+        st.subheader("Benefits")
+        st.markdown("""
+        - **Specialized Expertise**: Each assistant is optimized for its specific task
+        - **Consistent Output**: Standardized format across all content
+        - **Efficient Workflow**: Reduces manual research and structuring time
+        - **Quality Control**: Built-in industry focus and source verification
+        - **Scalable Content**: Easy to generate multiple outlines from single research
         """)
 
     # Input section at the top
@@ -79,7 +96,6 @@ def main():
         st.subheader("Research Results")
         if "research_data" in st.session_state:
             st.markdown(st.session_state.research_data)
-            create_copy_button(st.session_state.research_data, "research")
         else:
             st.info("Research results will appear here...")
 
@@ -87,7 +103,6 @@ def main():
         st.subheader("Article Outline")
         if "outline_data" in st.session_state:
             st.markdown(st.session_state.outline_data)
-            create_copy_button(st.session_state.outline_data, "outline")
         else:
             st.info("Article outline will appear here...")
 
