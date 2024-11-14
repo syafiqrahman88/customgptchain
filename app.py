@@ -3,6 +3,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 from utils.gpt_helpers import get_research, generate_outline, generate_article
+from utils.document_processor import DocumentProcessor
 from data.system_prompts import RESEARCH_ASSISTANT_PROMPT, ARTICLE_OUTLINE_PROMPT
 
 # Load environment variables
@@ -10,6 +11,9 @@ load_dotenv()
 
 # Configure OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+# Initialize DocumentProcessor
+doc_processor = DocumentProcessor()
 
 def main():
     # Page config
@@ -103,19 +107,25 @@ def main():
                 if research_result["success"]:
                     st.session_state.research_data = research_result["data"]
                     st.success("Research completed!")
+
+                    # Parse the research data into topics
+                    topics = parse_research_output(st.session_state.research_data)
+                    st.session_state.topics = topics  # Store topics in session state
+
+                    # Create buttons for each topic
+                    for i, topic in enumerate(topics):
+                        if st.button(f"Select Topic {i + 1}"):
+                            st.session_state.selected_topic = topic
+                            st.success(f"Selected Topic {i + 1}: {topic['headline']}")
+                            # Proceed to generate outline for the selected topic
+                            outline_result = generate_outline(topic['content'])
+                            if outline_result["success"]:
+                                st.session_state.outline_data = outline_result["data"]
+                                st.success("Outline generated!")
+                            else:
+                                st.error(f"Outline Error: {outline_result['error']}")
                 else:
                     st.error(f"Research Error: {research_result['error']}")
-                    return
-
-            # Outline Phase
-            with st.spinner("Generating outline..."):
-                outline_result = generate_outline(st.session_state.research_data)
-                
-                if outline_result["success"]:
-                    st.session_state.outline_data = outline_result["data"]
-                    st.success("Outline generated!")
-                else:
-                    st.error(f"Outline Error: {outline_result['error']}")
                     return
 
     # Results section in three columns
@@ -157,6 +167,20 @@ def main():
             st.markdown(st.session_state.article_data)
         else:
             st.info("Final article will appear here...")
+
+def parse_research_output(research_data):
+    """Parse the research output into structured topics."""
+    topics = []
+    # Assuming research_data is structured as per the output format
+    # Split the data into topics based on the expected format
+    topic_sections = research_data.split("Topic ")
+    for section in topic_sections[1:]:  # Skip the first split part
+        lines = section.strip().splitlines()
+        if len(lines) > 0:
+            headline = lines[0].split(":")[1].strip()  # Extract headline
+            content = "\n".join(lines[1:])  # Join the rest as content
+            topics.append({"headline": headline, "content": content})
+    return topics
 
 if __name__ == "__main__":
     main() 
