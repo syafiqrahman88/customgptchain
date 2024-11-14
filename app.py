@@ -33,7 +33,7 @@ def main():
     with st.sidebar:
         st.header("About")
         st.markdown("""
-        This tool helps generate content ideas and outlines for AtkinsRéalis using three specialized GPT assistants:
+        This tool helps generate content ideas and outlines for AtkinsRéalis using two specialized GPT assistants:
         """)
         
         st.subheader("1. Research Assistant")
@@ -92,41 +92,34 @@ def main():
 
     # Input section at the top
     st.subheader("Research Input")
-    topic_input = st.text_area(
+    topic = st.text_area(
         "Enter a topic or area of interest:",
         placeholder="e.g., sustainable infrastructure trends in 2024",
         height=100
     )
 
-    if st.button("Generate Full Article", type="primary"):
-        if topic_input:
+    if st.button("Generate Content", type="primary"):
+        if topic:
             # Research Phase
             with st.spinner("Researching topics..."):
-                research_result = get_research(topic_input)
+                research_result = get_research(topic)
                 
                 if research_result["success"]:
                     st.session_state.research_data = research_result["data"]
                     st.success("Research completed!")
-
-                    # Directly use the raw research data for outline generation
-                    outline_result = generate_outline(st.session_state.research_data)  # Pass the raw research data
-                    
-                    if outline_result["success"]:
-                        st.session_state.outline_data = outline_result["data"]
-                        st.success("Outline generated!")
-
-                        # Generate final article from the outline
-                        with st.spinner("Generating final article..."):
-                            article_result = generate_article(st.session_state.outline_data)
-                            if article_result["success"]:
-                                st.session_state.article_data = article_result["data"]
-                                st.success("Final article generated!")
-                            else:
-                                st.error(f"Article Error: {article_result['error']}")
-                    else:
-                        st.error(f"Outline Error: {outline_result['error']}")
                 else:
                     st.error(f"Research Error: {research_result['error']}")
+                    return
+
+            # Outline Phase
+            with st.spinner("Generating outline..."):
+                outline_result = generate_outline(st.session_state.research_data)
+                
+                if outline_result["success"]:
+                    st.session_state.outline_data = outline_result["data"]
+                    st.success("Outline generated!")
+                else:
+                    st.error(f"Outline Error: {outline_result['error']}")
                     return
 
     # Results section in three columns
@@ -143,6 +136,14 @@ def main():
         st.subheader("Article Outline")
         if "outline_data" in st.session_state:
             st.markdown(st.session_state.outline_data)
+            if st.button("Generate Full Article", type="secondary"):
+                with st.spinner("Generating article..."):
+                    article_result = generate_article(st.session_state.outline_data)
+                    if article_result["success"]:
+                        st.session_state.article_data = article_result["data"]
+                        st.success("Article generated!")
+                    else:
+                        st.error(f"Article Error: {article_result['error']}")
         else:
             st.info("Article outline will appear here...")
 
