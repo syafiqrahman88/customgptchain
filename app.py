@@ -98,7 +98,7 @@ def main():
         height=100
     )
 
-    if st.button("Generate Content", type="primary"):
+    if st.button("Generate Full Article", type="primary"):
         if topic_input:
             # Research Phase
             with st.spinner("Researching topics..."):
@@ -108,23 +108,23 @@ def main():
                     st.session_state.research_data = research_result["data"]
                     st.success("Research completed!")
 
-                    # Parse the research data into topics
-                    topics = parse_research_output(st.session_state.research_data)
-                    st.session_state.topics = topics  # Store topics in session state
+                    # Directly use the raw research data for outline generation
+                    outline_result = generate_outline(st.session_state.research_data)  # Pass the raw research data
+                    
+                    if outline_result["success"]:
+                        st.session_state.outline_data = outline_result["data"]
+                        st.success("Outline generated!")
 
-                    # Create buttons for each topic
-                    for i, topic in enumerate(topics):
-                        if st.button(f"Select Topic {i + 1}"):
-                            st.session_state.selected_topic = topic  # Store the selected topic
-                            st.success(f"Selected Topic {i + 1}: {topic['headline']}")
-                            
-                            # Proceed to generate outline for the selected topic
-                            outline_result = generate_outline(topic['content'])  # Pass the content of the selected topic
-                            if outline_result["success"]:
-                                st.session_state.outline_data = outline_result["data"]
-                                st.success("Outline generated!")
+                        # Generate final article from the outline
+                        with st.spinner("Generating final article..."):
+                            article_result = generate_article(st.session_state.outline_data)
+                            if article_result["success"]:
+                                st.session_state.article_data = article_result["data"]
+                                st.success("Final article generated!")
                             else:
-                                st.error(f"Outline Error: {outline_result['error']}")
+                                st.error(f"Article Error: {article_result['error']}")
+                    else:
+                        st.error(f"Outline Error: {outline_result['error']}")
                 else:
                     st.error(f"Research Error: {research_result['error']}")
                     return
@@ -143,15 +143,6 @@ def main():
         st.subheader("Article Outline")
         if "outline_data" in st.session_state:
             st.markdown(st.session_state.outline_data)
-            # Add button to generate final article
-            if st.button("Generate Final Article"):
-                with st.spinner("Generating final article..."):
-                    article_result = generate_article(st.session_state.outline_data)
-                    if article_result["success"]:
-                        st.session_state.article_data = article_result["data"]
-                        st.success("Final article generated!")
-                    else:
-                        st.error(f"Article Error: {article_result['error']}")
         else:
             st.info("Article outline will appear here...")
 
@@ -169,20 +160,6 @@ def main():
             st.markdown(st.session_state.article_data)
         else:
             st.info("Final article will appear here...")
-
-def parse_research_output(research_data):
-    """Parse the research output into structured topics."""
-    topics = []
-    # Assuming research_data is structured as per the output format
-    # Split the data into topics based on the expected format
-    topic_sections = research_data.split("Topic ")
-    for section in topic_sections[1:]:  # Skip the first split part
-        lines = section.strip().splitlines()
-        if len(lines) > 0:
-            headline = lines[0].split(":")[1].strip()  # Extract headline
-            content = "\n".join(lines[1:])  # Join the rest as content
-            topics.append({"headline": headline, "content": content})
-    return topics
 
 if __name__ == "__main__":
     main() 
