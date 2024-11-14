@@ -75,11 +75,67 @@ Topic 1:
    - Key takeaways
    - Call to action
 
-Topic 2: (if available)
-[Same structure as Topic 1]
+Topic 2:
+1. Article Title
+   - Incorporate keywords from the research
+   - Make it engaging yet professional
 
-Topic 3: (if available)
-[Same structure as Topic 1]"""
+2. Executive Summary (2-3 sentences)
+   - Highlight key findings from research
+   - State business relevance
+
+3. Main Sections (3-4)
+   a) Industry Context
+      - Include relevant data points from research
+      - Market trends
+   b) Technical Analysis
+      - Engineering implications
+      - Technical considerations
+   c) Business Impact
+      - AtkinsRéalis perspective
+      - Industry applications
+   d) Future Outlook
+      - Recommendations
+      - Next steps
+
+4. Supporting Data Integration
+   - List key statistics to include
+   - Identify potential visuals/charts
+
+5. Conclusion Framework
+   - Key takeaways
+   - Call to action
+
+Topic 3:
+1. Article Title
+   - Incorporate keywords from the research
+   - Make it engaging yet professional
+
+2. Executive Summary (2-3 sentences)
+   - Highlight key findings from research
+   - State business relevance
+
+3. Main Sections (3-4)
+   a) Industry Context
+      - Include relevant data points from research
+      - Market trends
+   b) Technical Analysis
+      - Engineering implications
+      - Technical considerations
+   c) Business Impact
+      - AtkinsRéalis perspective
+      - Industry applications
+   d) Future Outlook
+      - Recommendations
+      - Next steps
+
+4. Supporting Data Integration
+   - List key statistics to include
+   - Identify potential visuals/charts
+
+5. Conclusion Framework
+   - Key takeaways
+   - Call to action"""
 
 BRAND_VOICE_PROMPT = """You are a specialized content writer for AtkinsRéalis, trained to write 
 in their distinctive brand voice and style. Your task is to transform article outlines into 
