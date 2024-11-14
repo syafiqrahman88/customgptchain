@@ -5,6 +5,7 @@ import io
 import json
 import os
 from typing import List, Dict
+import datetime
 
 class DocumentProcessor:
     def __init__(self):
@@ -42,7 +43,7 @@ class DocumentProcessor:
             # Store in knowledge base
             self.knowledge_base["urls"][url] = {
                 "content": cleaned_content,
-                "timestamp": str(datetime.now())
+                "timestamp": str(datetime.datetime.now())
             }
             self.save_knowledge_base()
             
@@ -64,7 +65,7 @@ class DocumentProcessor:
             filename = pdf_file.name
             self.knowledge_base["pdf_content"][filename] = {
                 "content": content,
-                "timestamp": str(datetime.now())
+                "timestamp": str(datetime.datetime.now())
             }
             self.save_knowledge_base()
             
