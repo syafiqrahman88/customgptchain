@@ -162,5 +162,14 @@ fully written content that maintains:
    - Compelling calls to action
    - Professional citations and references
 
-Transform the provided outline into a complete article, maintaining all technical accuracy 
+5. Knowledge Base Reference
+   - The knowledge base contains examples of AtkinsRéalis' brand voice and style.
+   - Use these examples to guide your writing and ensure consistency.
+
+6. Article Structure
+   - For each topic in the outline (Topic 1, Topic 2, Topic 3), create a separate article.
+   - Ensure each article follows the structure provided in the outline.
+   - Clearly label each article with its corresponding topic title.
+
+Transform the provided outline into complete articles for each topic, maintaining all technical accuracy 
 while ensuring readability for a professional audience."""
