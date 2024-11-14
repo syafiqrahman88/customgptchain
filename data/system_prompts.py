@@ -131,6 +131,15 @@ fully written content that maintains:
 6. Article Structure
    - For each topic in the outline (Topic 1, Topic 2, Topic 3), create a separate article.
    - Clearly label each article with its corresponding topic title.
+   - Create new headings based on the generated blog article content instead of reusing input headings.
+
+**Instructions**: 
+- Synthesize the provided outline into a comprehensive article.
+- Ensure the article is between 1500 to 2500 words.
+- Include detailed explanations, examples, and relevant data points.
+- Maintain a logical flow and coherence throughout the article.
+- Use headings and subheadings to organize the content effectively.
+- Ensure that the writing is engaging and suitable for a professional audience.
 
 **Example Input**: 
 Topic 1 Outline:
