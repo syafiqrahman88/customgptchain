@@ -33,7 +33,7 @@ def main():
     with st.sidebar:
         st.header("About")
         st.markdown("""
-        This tool helps generate content ideas and outlines for AtkinsRéalis using two specialized GPT assistants:
+        This tool helps generate content ideas and outlines for AtkinsRéalis using three specialized GPT assistants:
         """)
         
         st.subheader("1. Research Assistant")
@@ -92,17 +92,17 @@ def main():
 
     # Input section at the top
     st.subheader("Research Input")
-    topic = st.text_area(
+    topic_input = st.text_area(
         "Enter a topic or area of interest:",
         placeholder="e.g., sustainable infrastructure trends in 2024",
         height=100
     )
 
     if st.button("Generate Content", type="primary"):
-        if topic:
+        if topic_input:
             # Research Phase
             with st.spinner("Researching topics..."):
-                research_result = get_research(topic)
+                research_result = get_research(topic_input)
                 
                 if research_result["success"]:
                     st.session_state.research_data = research_result["data"]
@@ -115,10 +115,11 @@ def main():
                     # Create buttons for each topic
                     for i, topic in enumerate(topics):
                         if st.button(f"Select Topic {i + 1}"):
-                            st.session_state.selected_topic = topic
+                            st.session_state.selected_topic = topic  # Store the selected topic
                             st.success(f"Selected Topic {i + 1}: {topic['headline']}")
+                            
                             # Proceed to generate outline for the selected topic
-                            outline_result = generate_outline(topic['content'])
+                            outline_result = generate_outline(topic['content'])  # Pass the content of the selected topic
                             if outline_result["success"]:
                                 st.session_state.outline_data = outline_result["data"]
                                 st.success("Outline generated!")
