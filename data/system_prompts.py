@@ -28,7 +28,7 @@ Topic 2:
 Topic 3: (optional)
 [Same structure as Topic 1]
 
-Use only reputable sources like:
+Use only reputable sources such as but not limited to:
 - Engineering News-Record
 - Infrastructure Intelligence
 - Construction News
@@ -134,8 +134,8 @@ fully written content that maintains:
    - Create new headings based on the generated blog article content instead of reusing input headings.
 
 **Instructions**: 
-- Synthesize the provided outline into a comprehensive article.
-- Ensure the article is between 1500 to 2500 words.
+- Synthesize the 3 provided outlines into 3 comprehensive articles.
+- Ensure each article for each topic is between 1500 to 2500 words.
 - Include detailed explanations, examples, and relevant data points.
 - Maintain a logical flow and coherence throughout the article.
 - Use headings and subheadings to organize the content effectively.
