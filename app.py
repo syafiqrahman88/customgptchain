@@ -122,6 +122,16 @@ def main():
                     st.error(f"Outline Error: {outline_result['error']}")
                     return
 
+            # Final Article Phase
+            with st.spinner("Generating article..."):
+                article_result = generate_article(st.session_state.outline_data)
+                if article_result["success"]:
+                    st.session_state.article_data = article_result["data"]
+                    st.success("Article generated!")
+                else:
+                    st.error(f"Article Error: {article_result['error']}")
+                    return
+
     # Results section in two columns for Research and Outline
     col1, col2 = st.columns(2)
 
@@ -136,14 +146,6 @@ def main():
         st.subheader("Article Outline")
         if "outline_data" in st.session_state:
             st.markdown(st.session_state.outline_data)
-            if st.button("Generate Full Article", type="secondary"):
-                with st.spinner("Generating article..."):
-                    article_result = generate_article(st.session_state.outline_data)
-                    if article_result["success"]:
-                        st.session_state.article_data = article_result["data"]
-                        st.success("Article generated!")
-                    else:
-                        st.error(f"Article Error: {article_result['error']}")
         else:
             st.info("Article outline will appear here...")
 
