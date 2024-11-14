@@ -2,7 +2,7 @@ import streamlit as st
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
-from utils.gpt_helpers import get_research, generate_outline
+from utils.gpt_helpers import get_research, generate_outline, generate_article
 from data.system_prompts import RESEARCH_ASSISTANT_PROMPT, ARTICLE_OUTLINE_PROMPT
 
 # Load environment variables
@@ -48,14 +48,43 @@ def main():
         - Ensures technical depth and business relevance
         """)
 
-        st.subheader("Benefits")
+        st.subheader("3. Brand Voice Assistant")
         st.markdown("""
-        - **Specialized Expertise**: Each assistant is optimized for its specific task
-        - **Consistent Output**: Standardized format across all content
-        - **Efficient Workflow**: Reduces manual research and structuring time
-        - **Quality Control**: Built-in industry focus and source verification
-        - **Scalable Content**: Easy to generate multiple outlines from single research
+        - Transforms outlines into polished articles
+        - Maintains AtkinsRéalis' professional voice
+        - Ensures technical accuracy
+        - Incorporates brand guidelines
+        - Produces publication-ready content
         """)
+
+        st.divider()
+        st.subheader("Knowledge Base Management")
+        
+        # URL input
+        url_input = st.text_input("Add URL to knowledge base:")
+        if st.button("Process URL"):
+            if url_input:
+                with st.spinner("Processing URL..."):
+                    result = doc_processor.process_url(url_input)
+                    if result["success"]:
+                        st.success(result["message"])
+                    else:
+                        st.error(result["error"])
+        
+        # PDF upload
+        uploaded_file = st.file_uploader("Upload PDF to knowledge base", type="pdf")
+        if uploaded_file is not None:
+            if st.button("Process PDF"):
+                with st.spinner("Processing PDF..."):
+                    result = doc_processor.process_pdf(uploaded_file)
+                    if result["success"]:
+                        st.success(result["message"])
+                    else:
+                        st.error(result["error"])
+        
+        # View knowledge base
+        if st.button("View Knowledge Base"):
+            st.json(doc_processor.knowledge_base)
 
     # Input section at the top
     st.subheader("Research Input")
@@ -89,8 +118,8 @@ def main():
                     st.error(f"Outline Error: {outline_result['error']}")
                     return
 
-    # Results section in two columns
-    col1, col2 = st.columns(2)
+    # Results section in three columns
+    col1, col2, col3 = st.columns(3)
 
     with col1:
         st.subheader("Research Results")
@@ -103,8 +132,31 @@ def main():
         st.subheader("Article Outline")
         if "outline_data" in st.session_state:
             st.markdown(st.session_state.outline_data)
+            if st.button("Generate Full Article", type="secondary"):
+                with st.spinner("Generating article..."):
+                    article_result = generate_article(st.session_state.outline_data)
+                    if article_result["success"]:
+                        st.session_state.article_data = article_result["data"]
+                        st.success("Article generated!")
+                    else:
+                        st.error(f"Article Error: {article_result['error']}")
         else:
             st.info("Article outline will appear here...")
+
+    with col3:
+        st.subheader("Final Article")
+        if "article_data" in st.session_state:
+            # Add download button for the article
+            st.download_button(
+                label="Download Article",
+                data=st.session_state.article_data,
+                file_name="atkins_realis_article.md",
+                mime="text/markdown"
+            )
+            # Display the article with proper formatting
+            st.markdown(st.session_state.article_data)
+        else:
+            st.info("Final article will appear here...")
 
 if __name__ == "__main__":
     main() 
