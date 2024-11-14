@@ -143,12 +143,13 @@ def main():
         st.subheader("Article Outline")
         if "outline_data" in st.session_state:
             st.markdown(st.session_state.outline_data)
-            if st.button("Generate Full Article", type="secondary"):
-                with st.spinner("Generating article..."):
+            # Add button to generate final article
+            if st.button("Generate Final Article"):
+                with st.spinner("Generating final article..."):
                     article_result = generate_article(st.session_state.outline_data)
                     if article_result["success"]:
                         st.session_state.article_data = article_result["data"]
-                        st.success("Article generated!")
+                        st.success("Final article generated!")
                     else:
                         st.error(f"Article Error: {article_result['error']}")
         else:
