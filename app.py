@@ -122,8 +122,8 @@ def main():
                     st.error(f"Outline Error: {outline_result['error']}")
                     return
 
-    # Results section in three columns
-    col1, col2, col3 = st.columns(3)
+    # Results section in two columns for Research and Outline
+    col1, col2 = st.columns(2)
 
     with col1:
         st.subheader("Research Results")
@@ -147,20 +147,20 @@ def main():
         else:
             st.info("Article outline will appear here...")
 
-    with col3:
-        st.subheader("Final Article")
-        if "article_data" in st.session_state:
-            # Add download button for the article
-            st.download_button(
-                label="Download Article",
-                data=st.session_state.article_data,
-                file_name="atkins_realis_article.md",
-                mime="text/markdown"
-            )
-            # Display the article with proper formatting
-            st.markdown(st.session_state.article_data)
-        else:
-            st.info("Final article will appear here...")
+    # Final Article section below the columns
+    st.subheader("Final Article")
+    if "article_data" in st.session_state:
+        # Add download button for the article
+        st.download_button(
+            label="Download Article",
+            data=st.session_state.article_data,
+            file_name="atkins_realis_article.md",
+            mime="text/markdown"
+        )
+        # Display the article with proper formatting
+        st.markdown(st.session_state.article_data)
+    else:
+        st.info("Final article will appear here...")
 
 if __name__ == "__main__":
     main() 
