@@ -18,22 +18,22 @@ doc_processor = DocumentProcessor()
 def main():
     # Page config
     st.set_page_config(
-        page_title="AtkinsRéalis Content Generator",
+        page_title="Sequencr Content Generator",
         page_icon="🏗️",
         layout="wide"
     )
 
     # Header
-    st.title("🏗️ AtkinsRéalis Content Generator")
+    st.title("🏗️ Sequencr Content Generator")
     st.markdown("""
-    Generate research-based article outlines for AtkinsRéalis content.
+    Generate research-based article outlines for Sequencr content.
     """)
 
     # Sidebar
     with st.sidebar:
         st.header("About")
         st.markdown("""
-        This tool helps generate content ideas and outlines for AtkinsRéalis using two specialized GPT assistants:
+        This tool helps generate content ideas and outlines for Sequencr using three specialized GPT assistants:
         """)
         
         st.subheader("1. Research Assistant")
@@ -47,7 +47,7 @@ def main():
         st.subheader("2. Outline Specialist")
         st.markdown("""
         - Transforms research into structured article outlines
-        - Maintains consistent AtkinsRéalis voice
+        - Includes executive summary and data points
         - Creates separate outlines for each research topic
         - Ensures technical depth and business relevance
         """)
@@ -55,7 +55,7 @@ def main():
         st.subheader("3. Brand Voice Assistant")
         st.markdown("""
         - Transforms outlines into polished articles
-        - Maintains AtkinsRéalis' professional voice
+        - Maintains Brand's professional voice
         - Ensures technical accuracy
         - Incorporates brand guidelines
         - Produces publication-ready content
