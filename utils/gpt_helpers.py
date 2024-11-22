@@ -13,7 +13,7 @@ def get_research(topic: str) -> Dict[str, Any]:
     """Generate research results for given topic."""
     try:
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="o1-mini",
             messages=[
                 {
                     "role": "system",
@@ -40,7 +40,7 @@ def generate_outline(research_data: str) -> Dict[str, Any]:
     """Generate article outline based on research data."""
     try:
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="o1-mini",
             messages=[
                 {
                     "role": "system",
@@ -80,7 +80,7 @@ def generate_article(outline_data: str) -> Dict[str, Any]:
         """
         
         response = client.chat.completions.create(
-            model="gpt-4",
+            model="o1-mini",
             messages=[
                 {
                     "role": "system",
