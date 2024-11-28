@@ -94,7 +94,7 @@ def main():
     st.subheader("Research Input")
     topic = st.text_area(
         "Enter a topic or area of interest:",
-        placeholder="e.g., sustainable infrastructure trends in 2024",
+        placeholder="e.g., AI trends in 2024",
         height=100
     )
 
