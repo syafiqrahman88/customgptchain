@@ -24,9 +24,9 @@ def main():
     )
 
     # Header
-    st.title("🏗️ Blueprint Writer: Sequencr's Content Generator")
+    st.title("🏗️ Blueprint Writer")
     st.markdown("""
-    Generate research-based article outlines for Sequencr content.
+    Generate research-based article content for Sequencr.
     """)
 
     # Sidebar
