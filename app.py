@@ -18,13 +18,13 @@ doc_processor = DocumentProcessor()
 def main():
     # Page config
     st.set_page_config(
-        page_title="Sequencr Content Generator",
+        page_title="Blueprint Writer",
         page_icon="🏗️",
         layout="wide"
     )
 
     # Header
-    st.title("🏗️ Sequencr Content Generator")
+    st.title("🏗️ Blueprint Writer: Sequencr's Content Generator")
     st.markdown("""
     Generate research-based article outlines for Sequencr content.
     """)
